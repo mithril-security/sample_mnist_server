@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "sample-mnist-server"
+version = "0.1.0"
+description = ""
+authors = ["Lucas Bourtoule <lucas.bourtoule@mithrilsecurity.io>"]
+readme = "README.md"
+packages = [{include = "sample_mnist_server"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+uvicorn = "^0.23.2"
+fastapi = "^0.100.1"
+torch = "1.13.1"
+aicert = { path = "../aicert/client" }
+pillow = "^10.0.0"
+numpy = "^1.25.2"
+torchvision = "0.14.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
