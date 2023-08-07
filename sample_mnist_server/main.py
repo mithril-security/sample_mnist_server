@@ -26,7 +26,7 @@ app.on_event("startup")(runner.run)
 
 
 @app.post("/predict")
-@async_array_endpoint(sample_rate=16000)
+@async_array_endpoint()
 async def predict(x: torch.Tensor) -> torch.Tensor:
     return await runner.submit(x)
 
