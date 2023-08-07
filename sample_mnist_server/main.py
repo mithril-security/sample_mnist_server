@@ -20,13 +20,13 @@ runner = BatchRunner(
     model,
     max_batch_size=256,
     max_latency_ms=200,
-    collator=TorchCollator(),
+    collator=TorchCollator(stack=True),
 )
 app.on_event("startup")(runner.run)
 
 
 @app.post("/predict")
-@async_array_endpoint()
+@async_array_endpoint(size=(3, 64, 64), torch_format=True)
 async def predict(x: torch.Tensor) -> torch.Tensor:
     return await runner.submit(x)
 
