@@ -16,6 +16,9 @@ class Serializer(Generic[T]):
     def deserialize(self, data: Annotated[bytes, File()], *args, **kwargs) -> T:
         raise NotImplementedError()
 
+    def _get_generic_type(self):
+        return self.__orig_class__.__args__[0]
+
 
 class ArraySerializer(Serializer[T]):
     def __init__(self, torch_format: bool = False) -> None:
