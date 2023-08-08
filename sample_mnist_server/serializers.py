@@ -16,10 +16,6 @@ class Serializer(Generic[T]):
     def deserialize(self, data: Annotated[bytes, File()], *args, **kwargs) -> T:
         raise NotImplementedError()
 
-    def _get_generic_type(self):
-        return self.__orig_class__.__args__[0]
-
-
 class ArraySerializer(Serializer[T]):
     def __init__(self, torch_format: bool = False) -> None:
         super().__init__()
@@ -48,10 +44,6 @@ class ArraySerializer(Serializer[T]):
             x = torch.load(buff) if self.torch_format else np.load(buff)
         except:
             raise HTTPException(status_code=400, detail=f"Could not deserialize data: not a {'torch' if self.torch_format else 'numpy'} file")
-        
-        if self._get_generic_type() is not None and not isinstance(x, self._get_generic_type()):
-            print(type(x))
-            raise HTTPException(status_code=400, detail=f"Not a {'torch tensor' if self.torch_format else 'numpy array'}")
         
         if dtype is not None and x.dtype != dtype:
             raise HTTPException(status_code=400, detail=f"{'Torch tensor' if self.torch_format else 'Numpy array'} has a wrong dtype")
